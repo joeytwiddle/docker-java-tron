@@ -221,7 +221,9 @@ sed -i -e "s/{SOLIDITY_LOG_TRIGGER_PLACEHOLDER}/${CONFIG_SOLIDITY_LOG_TRIGGER_EN
 sed -i -e "s/{CONTRACT_ADDRESS_FILTER_PLACEHOLDER}/${CONFIG_CONTRACT_ADDRESS_FILTER}/g" ${CONFIG_FILE}
 sed -i -e "s/{CONTRACT_TOPIC_FILTER_PLACEHOLDER}/${CONFIG_CONTRACT_TOPIC_FILTER}/g" ${CONFIG_FILE}
 
-COMMAND="java -jar /usr/local/tron/FullNode.jar -c ${CONFIG_FILE} -d /data ${ES_FLAG} --log-config ${CONFIG_LOG_FILE} ${WITNESS_FLAG}"
+# We increase heap size from 2GB to 4GB, to try to prevent "java.lang.OutOfMemoryError: GC overhead limit exceeded" error
+
+COMMAND="java -Xmx4G -jar /usr/local/tron/FullNode.jar -c ${CONFIG_FILE} -d /data ${ES_FLAG} --log-config ${CONFIG_LOG_FILE} ${WITNESS_FLAG}"
 
 echo ${COMMAND}
 exec ${COMMAND}
